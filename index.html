@@ -1,365 +1,400 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        /* Estilos (sem alterações) */
-        body, html {
-          margin: 0;
-          padding: 0;
-          width: 100%;
-          height: 100%;
-          background-color: #f0f2f5;
-          font-family: Arial, sans-serif;
-        }
-        .container-curso {
-          width: 100%;
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 20px;
-          box-sizing: border-box;
-        }
-        .pagina-curso {
-          display: none;
-          max-width: 700px;
-          width: 100%;
-          background: #fff;
-          padding: 20px;
-          border-radius: 6px;
-          border: 1px solid #ccc;
-          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-          margin-bottom: 30px;
-        }
-        .pagina-curso.ativa { display: block; }
-        .pagina-curso h4 { margin-bottom: 15px; font-size: 22px; }
-        .pagina-curso p { font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
-        .alerta-importante {
-            background-color: #fffbe6;
-            border: 1px solid #ffe58f;
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
-        .print-container {
-          border: 1px solid #999;
-          padding: 10px;
-          border-radius: 4px;
-          background: #f9f9f9;
-          max-width: 600px;
-          margin: 20px auto;
-        }
-        .print-container img {
-          width: 100%;
-          max-width: 580px;
-          display: block;
-          margin: 0 auto 10px;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-        }
-        .print-container p { font-size: 14px; color: #555; text-align: center; margin: 0; }
-        
-        /* Estilos para seleção de curso */
-        .seletor-cursos {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            background: #fff;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .seletor-cursos label {
-            font-weight: bold;
-            font-size: 16px;
-            color: #333;
-        }
-        
-        .seletor-cursos select {
-            padding: 8px 15px;
-            font-size: 16px;
-            border: 2px solid #ccc;
-            border-radius: 6px;
-            background: #fff;
-            cursor: pointer;
-            min-width: 200px;
-        }
-        
-        .seletor-cursos select:hover {
-            border-color: #999;
-        }
-        
-        .seletor-cursos select:focus {
-            outline: none;
-            border-color: #4a90e2;
-        }
-        
-        /* Navegação entre páginas do curso */
-        .navegacao-curso {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            display: flex;
-            gap: 10px;
-            background: #fff;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        .navegacao-curso button {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: 2px solid #4a90e2;
-            border-radius: 6px;
-            background: #fff;
-            color: #4a90e2;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .navegacao-curso button:hover:not(:disabled) {
-            background: #4a90e2;
-            color: #fff;
-        }
-        
-        .navegacao-curso button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            border-color: #ccc;
-        }
-        
-        .container-curso {
-            margin-top: 100px;
-            margin-bottom: 120px;
-        }
-        
-        .curso-carregando {
-            text-align: center;
-            padding: 50px;
-            font-size: 18px;
-            color: #666;
-        }
-        
-        .curso-erro {
-            text-align: center;
-            padding: 50px;
-            font-size: 18px;
-            color: #d32f2f;
-            background: #fff;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
+      /* Estilos (sem alterações) */
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #f0f2f5;
+        font-family: Arial, sans-serif;
+      }
+      .container-curso {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .pagina-curso {
+        display: none;
+        max-width: 700px;
+        width: 100%;
+        background: #fff;
+        padding: 20px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+      .pagina-curso.ativa {
+        display: block;
+      }
+      .pagina-curso h4 {
+        margin-bottom: 15px;
+        font-size: 22px;
+      }
+      .pagina-curso p {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+      .alerta-importante {
+        background-color: #fffbe6;
+        border: 1px solid #ffe58f;
+        border-radius: 6px;
+        padding: 15px;
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+      .print-container {
+        border: 1px solid #999;
+        padding: 10px;
+        border-radius: 4px;
+        background: #f9f9f9;
+        max-width: 600px;
+        margin: 20px auto;
+      }
+      .print-container img {
+        width: 100%;
+        max-width: 580px;
+        display: block;
+        margin: 0 auto 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .print-container p {
+        font-size: 14px;
+        color: #555;
+        text-align: center;
+        margin: 0;
+      }
+
+      /* Estilos para seleção de curso */
+      .seletor-cursos {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        background: #fff;
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .seletor-cursos label {
+        font-weight: bold;
+        font-size: 16px;
+        color: #333;
+      }
+
+      .seletor-cursos select {
+        padding: 8px 15px;
+        font-size: 16px;
+        border: 2px solid #ccc;
+        border-radius: 6px;
+        background: #fff;
+        cursor: pointer;
+        min-width: 200px;
+      }
+
+      .seletor-cursos select:hover {
+        border-color: #999;
+      }
+
+      .seletor-cursos select:focus {
+        outline: none;
+        border-color: #4a90e2;
+      }
+
+      /* Navegação entre páginas do curso */
+      .navegacao-curso {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        display: flex;
+        gap: 10px;
+        background: #fff;
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .navegacao-curso button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: 2px solid #4a90e2;
+        border-radius: 6px;
+        background: #fff;
+        color: #4a90e2;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .navegacao-curso button:hover:not(:disabled) {
+        background: #4a90e2;
+        color: #fff;
+      }
+
+      .navegacao-curso button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        border-color: #ccc;
+      }
+
+      .container-curso {
+        margin-top: 100px;
+        margin-bottom: 120px;
+      }
+
+      .curso-carregando {
+        text-align: center;
+        padding: 50px;
+        font-size: 18px;
+        color: #666;
+      }
+
+      .curso-erro {
+        text-align: center;
+        padding: 50px;
+        font-size: 18px;
+        color: #d32f2f;
+        background: #fff;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="seletor-cursos">
-        <label for="seletor-curso">Selecione o Curso:</label>
-        <select id="seletor-curso">
-            <option value="">-- Selecione um curso --</option>
-            <option value="curso_2.html">Curso 2</option>
-            <option value="curso_3.html">Curso 3</option>
-            <option value="curso_3.html">Curso 4</option>
-            <option value="curso_3.html">Curso 5</option>
-            <option value="curso_3.html">Curso 6</option>
-            <option value="curso_3.html">Curso 7</option>
-        </select>
+      <label for="seletor-curso">Selecione o Curso:</label>
+      <select id="seletor-curso">
+        <option value="">-- Selecione um curso --</option>
+      </select>
     </div>
-    
+
     <div id="container-principal"></div>
-    
-    <div class="navegacao-curso" id="navegacao-curso" style="display: none;">
-        <button id="btn-anterior">← Anterior</button>
-        <span id="info-pagina" style="padding: 10px 15px; font-size: 16px; color: #666;"></span>
-        <button id="btn-proximo">Próximo →</button>
+
+    <div class="navegacao-curso" id="navegacao-curso" style="display: none">
+      <button id="btn-anterior">← Anterior</button>
+      <span
+        id="info-pagina"
+        style="padding: 10px 15px; font-size: 16px; color: #666"
+      ></span>
+      <button id="btn-proximo">Próximo →</button>
     </div>
-    
+
     <script>
-        let cursoAtual = null;
-        let paginaAtual = 1;
-        let totalPaginas = 0;
-        
-        const seletorCurso = document.getElementById('seletor-curso');
-        const containerPrincipal = document.getElementById('container-principal');
-        const navegacaoCurso = document.getElementById('navegacao-curso');
-        const btnAnterior = document.getElementById('btn-anterior');
-        const btnProximo = document.getElementById('btn-proximo');
-        const infoPagina = document.getElementById('info-pagina');
-        
-        // Carregar curso quando selecionado
-        seletorCurso.addEventListener('change', function() {
-            const arquivoCurso = this.value;
-            if (arquivoCurso) {
-                carregarCurso(arquivoCurso);
-            } else {
-                containerPrincipal.innerHTML = '';
-                navegacaoCurso.style.display = 'none';
-            }
+      let cursoAtual = null;
+      let paginaAtual = 1;
+      let totalPaginas = 0;
+
+      // Lista de cursos disponíveis - Adicione novos cursos aqui
+      const cursosDisponiveis = [
+        { arquivo: "curso_3.html", nome: "Curso 3 - PC não liga" },
+        { arquivo: "curso_4.html", nome: "Curso 4 - PC sem internet" },
+        // Adicione mais cursos aqui seguindo o padrão:
+        // { arquivo: 'curso_5.html', nome: 'Curso 5 - Nome do curso' },
+      ];
+
+      const seletorCurso = document.getElementById("seletor-curso");
+      const containerPrincipal = document.getElementById("container-principal");
+      const navegacaoCurso = document.getElementById("navegacao-curso");
+      const btnAnterior = document.getElementById("btn-anterior");
+      const btnProximo = document.getElementById("btn-proximo");
+      const infoPagina = document.getElementById("info-pagina");
+
+      // Popular o seletor com os cursos disponíveis
+      function popularSeletorCursos() {
+        cursosDisponiveis.forEach((curso) => {
+          const option = document.createElement("option");
+          option.value = curso.arquivo;
+          option.textContent = curso.nome;
+          seletorCurso.appendChild(option);
         });
-        
-        // Função para carregar o curso usando XMLHttpRequest (funciona melhor com arquivos locais)
-        function carregarCurso(arquivo) {
-            containerPrincipal.innerHTML = '<div class="curso-carregando">Carregando curso...</div>';
-            navegacaoCurso.style.display = 'none';
-            
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', arquivo, true);
-            
-            xhr.onload = function() {
-                if (xhr.status === 200 || xhr.status === 0) { // 0 para arquivos locais
-                    try {
-                        const html = xhr.responseText;
-                        
-                        // Criar um elemento temporário para parsear o HTML
-                        const tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = html;
-                        
-                        // Extrair o conteúdo do container-curso
-                        const containerCurso = tempDiv.querySelector('.container-curso');
-                        
-                        if (!containerCurso) {
-                            throw new Error('Estrutura do curso não encontrada no arquivo');
-                        }
-                        
-                        // Limpar e inserir o conteúdo
-                        containerPrincipal.innerHTML = '';
-                        containerPrincipal.appendChild(containerCurso);
-                        
-                        // Extrair e aplicar os estilos se existirem
-                        const estilos = tempDiv.querySelector('style');
-                        if (estilos) {
-                            // Remover estilos anteriores se existirem
-                            const estilosAntigos = document.getElementById('estilos-curso');
-                            if (estilosAntigos) {
-                                estilosAntigos.remove();
-                            }
-                            const novoEstilo = document.createElement('style');
-                            novoEstilo.id = 'estilos-curso';
-                            novoEstilo.textContent = estilos.textContent;
-                            document.head.appendChild(novoEstilo);
-                        }
-                        
-                        // Inicializar navegação
-                        cursoAtual = containerCurso;
-                        inicializarNavegacao();
-                        
-                    } catch (error) {
-                        console.error('Erro ao processar curso:', error);
-                        containerPrincipal.innerHTML = `
-                            <div class="curso-erro">
-                                <p>Erro ao processar o curso: ${error.message}</p>
-                                <p>Verifique se o arquivo tem a estrutura correta.</p>
-                            </div>
-                        `;
-                    }
+      }
+
+      // Inicializar seletor ao carregar a página
+      popularSeletorCursos();
+
+      // Carregar curso quando selecionado
+      seletorCurso.addEventListener("change", function () {
+        const arquivoCurso = this.value;
+        if (arquivoCurso) {
+          carregarCurso(arquivoCurso);
+        } else {
+          containerPrincipal.innerHTML = "";
+          navegacaoCurso.style.display = "none";
+        }
+      });
+
+      // Função para carregar o curso - funciona com arquivos locais
+      async function carregarCurso(arquivo) {
+        containerPrincipal.innerHTML =
+          '<div class="curso-carregando">Carregando curso...</div>';
+        navegacaoCurso.style.display = "none";
+
+        try {
+          // Tentar usar fetch primeiro (funciona melhor em alguns navegadores)
+          let html;
+          try {
+            const response = await fetch(arquivo);
+            if (!response.ok && response.status !== 0) {
+              throw new Error(`HTTP ${response.status}`);
+            }
+            html = await response.text();
+          } catch (fetchError) {
+            // Se fetch falhar, tentar XMLHttpRequest
+            html = await new Promise((resolve, reject) => {
+              const xhr = new XMLHttpRequest();
+              xhr.open("GET", arquivo, true);
+              xhr.onload = function () {
+                if (xhr.status === 200 || xhr.status === 0) {
+                  resolve(xhr.responseText);
                 } else {
-                    containerPrincipal.innerHTML = `
-                        <div class="curso-erro">
-                            <p>Erro ao carregar o arquivo (código: ${xhr.status})</p>
-                            <p><strong>Dica:</strong> Se você está abrindo o arquivo diretamente no navegador, tente usar um servidor local.</p>
-                            <p>Ou verifique se o arquivo "${arquivo}" existe na mesma pasta.</p>
-                        </div>
-                    `;
+                  reject(new Error(`Erro HTTP ${xhr.status}`));
                 }
-            };
-            
-            xhr.onerror = function() {
-                containerPrincipal.innerHTML = `
+              };
+              xhr.onerror = function () {
+                reject(new Error("Erro ao carregar arquivo"));
+              };
+              xhr.send();
+            });
+          }
+
+          // Criar um elemento temporário para parsear o HTML
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = html;
+
+          // Extrair o conteúdo do container-curso
+          const containerCurso = tempDiv.querySelector(".container-curso");
+
+          if (!containerCurso) {
+            throw new Error(
+              'Estrutura do curso não encontrada no arquivo. Certifique-se de que o arquivo contém um elemento com a classe "container-curso"'
+            );
+          }
+
+          // Limpar e inserir o conteúdo
+          containerPrincipal.innerHTML = "";
+          containerPrincipal.appendChild(containerCurso);
+
+          // Extrair e aplicar os estilos se existirem
+          const estilos = tempDiv.querySelector("style");
+          if (estilos) {
+            // Remover estilos anteriores se existirem
+            const estilosAntigos = document.getElementById("estilos-curso");
+            if (estilosAntigos) {
+              estilosAntigos.remove();
+            }
+            const novoEstilo = document.createElement("style");
+            novoEstilo.id = "estilos-curso";
+            novoEstilo.textContent = estilos.textContent;
+            document.head.appendChild(novoEstilo);
+          }
+
+          // Inicializar navegação
+          cursoAtual = containerCurso;
+          inicializarNavegacao();
+        } catch (error) {
+          console.error("Erro ao carregar curso:", error);
+          containerPrincipal.innerHTML = `
                     <div class="curso-erro">
-                        <p>Erro ao carregar o arquivo "${arquivo}"</p>
-                        <p><strong>Possíveis causas:</strong></p>
+                        <p><strong>Erro ao carregar o curso:</strong></p>
+                        <p>${error.message}</p>
+                        <p style="margin-top: 15px;"><strong>Verifique:</strong></p>
                         <ul style="text-align: left; display: inline-block;">
-                            <li>O arquivo não existe na pasta</li>
-                            <li>Problema de CORS (tente usar um servidor local)</li>
-                            <li>O navegador bloqueou o acesso ao arquivo</li>
+                            <li>Se o arquivo "${arquivo}" existe na mesma pasta do index.html</li>
+                            <li>Se o arquivo tem a estrutura correta (deve conter um elemento com classe "container-curso")</li>
+                            <li>Se você está abrindo o index.html diretamente no navegador (file://)</li>
                         </ul>
-                        <p style="margin-top: 15px;"><strong>Solução:</strong> Use um servidor local como Live Server no VS Code ou Python: <code>python -m http.server</code></p>
+                        <p style="margin-top: 15px;"><strong>Dica:</strong> Se o problema persistir, tente usar um servidor local.</p>
                     </div>
                 `;
-            };
-            
-            xhr.send();
         }
-        
-        // Inicializar navegação entre páginas
-        function inicializarNavegacao() {
-            if (!cursoAtual) return;
-            
-            const paginas = cursoAtual.querySelectorAll('.pagina-curso');
-            totalPaginas = paginas.length;
-            
-            if (totalPaginas === 0) {
-                navegacaoCurso.style.display = 'none';
-                return;
-            }
-            
-            navegacaoCurso.style.display = 'flex';
-            paginaAtual = 1;
-            atualizarExibicao();
+      }
+
+      // Inicializar navegação entre páginas
+      function inicializarNavegacao() {
+        if (!cursoAtual) return;
+
+        const paginas = cursoAtual.querySelectorAll(".pagina-curso");
+        totalPaginas = paginas.length;
+
+        if (totalPaginas === 0) {
+          navegacaoCurso.style.display = "none";
+          return;
         }
-        
-        // Atualizar exibição da página atual
-        function atualizarExibicao() {
-            if (!cursoAtual) return;
-            
-            const paginas = cursoAtual.querySelectorAll('.pagina-curso');
-            
-            paginas.forEach((pagina, index) => {
-                pagina.classList.remove('ativa');
-                if (index + 1 === paginaAtual) {
-                    pagina.classList.add('ativa');
-                }
-            });
-            
-            // Atualizar botões de navegação
-            btnAnterior.disabled = paginaAtual === 1;
-            btnProximo.disabled = paginaAtual === totalPaginas;
-            
-            // Atualizar informação da página
-            infoPagina.textContent = `Página ${paginaAtual} de ${totalPaginas}`;
+
+        navegacaoCurso.style.display = "flex";
+        paginaAtual = 1;
+        atualizarExibicao();
+      }
+
+      // Atualizar exibição da página atual
+      function atualizarExibicao() {
+        if (!cursoAtual) return;
+
+        const paginas = cursoAtual.querySelectorAll(".pagina-curso");
+
+        paginas.forEach((pagina, index) => {
+          pagina.classList.remove("ativa");
+          if (index + 1 === paginaAtual) {
+            pagina.classList.add("ativa");
+          }
+        });
+
+        // Atualizar botões de navegação
+        btnAnterior.disabled = paginaAtual === 1;
+        btnProximo.disabled = paginaAtual === totalPaginas;
+
+        // Atualizar informação da página
+        infoPagina.textContent = `Página ${paginaAtual} de ${totalPaginas}`;
+      }
+
+      // Event listeners para navegação
+      btnAnterior.addEventListener("click", function () {
+        if (paginaAtual > 1) {
+          paginaAtual--;
+          atualizarExibicao();
+          // Scroll para o topo
+          window.scrollTo({ top: 0, behavior: "smooth" });
         }
-        
-        // Event listeners para navegação
-        btnAnterior.addEventListener('click', function() {
-            if (paginaAtual > 1) {
-                paginaAtual--;
-                atualizarExibicao();
-                // Scroll para o topo
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        });
-        
-        btnProximo.addEventListener('click', function() {
-            if (paginaAtual < totalPaginas) {
-                paginaAtual++;
-                atualizarExibicao();
-                // Scroll para o topo
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        });
-        
-        // Navegação por teclado
-        document.addEventListener('keydown', function(e) {
-            if (navegacaoCurso.style.display === 'none') return;
-            
-            if (e.key === 'ArrowLeft' && !btnAnterior.disabled) {
-                btnAnterior.click();
-            } else if (e.key === 'ArrowRight' && !btnProximo.disabled) {
-                btnProximo.click();
-            }
-        });
+      });
+
+      btnProximo.addEventListener("click", function () {
+        if (paginaAtual < totalPaginas) {
+          paginaAtual++;
+          atualizarExibicao();
+          // Scroll para o topo
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      });
+
+      // Navegação por teclado
+      document.addEventListener("keydown", function (e) {
+        if (navegacaoCurso.style.display === "none") return;
+
+        if (e.key === "ArrowLeft" && !btnAnterior.disabled) {
+          btnAnterior.click();
+        } else if (e.key === "ArrowRight" && !btnProximo.disabled) {
+          btnProximo.click();
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
